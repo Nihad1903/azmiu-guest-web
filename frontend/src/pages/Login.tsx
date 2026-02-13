@@ -33,66 +33,80 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50">
-      <div className="w-full max-w-sm rounded-lg border bg-white p-8 shadow-sm">
-        <h1 className="mb-6 text-center text-2xl font-bold text-gray-900">
-          AZMIU Guest QR
-        </h1>
-        <p className="mb-6 text-center text-sm text-gray-600">
-          Sign in to manage guest QR requests
+    <div className="flex min-h-screen items-center justify-center bg-stone-50">
+      <div className="w-full max-w-sm px-4">
+        <div className="rounded-lg border border-stone-200 bg-white p-8">
+          <div className="mb-8 flex justify-center">
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-stone-900">
+              <span className="text-xl font-semibold text-white">A</span>
+            </div>
+          </div>
+
+          <h1 className="mb-1 text-center text-xl font-semibold text-stone-900">
+            Welcome back
+          </h1>
+          <p className="mb-6 text-center text-sm text-stone-500">
+            Sign in to continue
+          </p>
+
+          {error && (
+            <div className="mb-6 rounded-md bg-rose-50 border border-rose-200 px-4 py-3 text-sm text-rose-700">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-stone-700 mb-1.5"
+              >
+                Username
+              </label>
+              <input
+                id="username"
+                type="text"
+                required
+                autoComplete="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="block w-full rounded-md border border-stone-300 px-3 py-2 text-sm placeholder:text-stone-400 focus:border-stone-500 focus:outline-none transition-colors"
+                placeholder="Enter your username"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-stone-700 mb-1.5"
+              >
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                required
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="block w-full rounded-md border border-stone-300 px-3 py-2 text-sm placeholder:text-stone-400 focus:border-stone-500 focus:outline-none transition-colors"
+                placeholder="Enter your password"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full rounded-md bg-stone-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-stone-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              {isSubmitting ? "Signing in..." : "Sign in"}
+            </button>
+          </form>
+        </div>
+
+        <p className="mt-6 text-center text-xs text-stone-400">
+          AZMIU Guest Management
         </p>
-
-        {error && (
-          <div className="mb-4 rounded-md bg-red-50 p-3 text-sm text-red-700">
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label
-              htmlFor="username"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Username
-            </label>
-            <input
-              id="username"
-              type="text"
-              required
-              autoComplete="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-            />
-          </div>
-
-          <div className="mb-6">
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              required
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
-          >
-            {isSubmitting ? "Signing in..." : "Sign in"}
-          </button>
-        </form>
       </div>
     </div>
   );

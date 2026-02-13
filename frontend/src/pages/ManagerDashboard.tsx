@@ -5,6 +5,7 @@ import { extractErrorMessage } from "../hooks/useApiError.ts";
 import CreateRequestForm from "../components/CreateRequestForm.tsx";
 import RequestsTable from "../components/RequestsTable.tsx";
 import Pagination from "../components/Pagination.tsx";
+import GuestDetailModal from "../components/GuestDetailModal.tsx";
 
 export default function ManagerDashboard() {
   const [requests, setRequests] = useState<QRRequest[]>([]);
@@ -15,6 +16,7 @@ export default function ManagerDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [selectedGuest, setSelectedGuest] = useState<QRRequest | null>(null);
 
   const fetchRequests = useCallback(async (p: number) => {
     setIsLoading(true);
@@ -68,30 +70,43 @@ export default function ManagerDashboard() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
+      {/* Header */}
+      <div>
+        <h1 className="text-xl font-semibold text-stone-900">Guest Requests</h1>
+        <p className="text-sm text-stone-500">
+          Create and manage QR code requests for your guests
+        </p>
+      </div>
+
+      {/* Create form */}
       <CreateRequestForm onCreated={handleCreated} />
 
+      {/* My requests section */}
       <div>
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-gray-900">My Requests</h2>
+          <div>
+            <h2 className="text-lg font-semibold text-stone-900">My Requests</h2>
+            <p className="text-sm text-stone-500">Track the status of your submitted requests</p>
+          </div>
           <button
             onClick={() => fetchRequests(page)}
             disabled={isLoading}
-            className="rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+            className="rounded-md border border-stone-200 bg-white px-3 py-1.5 text-sm font-medium text-stone-600 hover:bg-stone-50 disabled:opacity-50 transition-colors"
           >
             {isLoading ? "Loading..." : "Refresh"}
           </button>
         </div>
 
         {error && (
-          <div className="mb-4 rounded-md bg-red-50 p-3 text-sm text-red-700">
+          <div className="mb-4 rounded-md bg-rose-50 border border-rose-200 px-4 py-3 text-sm text-rose-700">
             {error}
           </div>
         )}
 
         {isLoading && requests.length === 0 ? (
-          <div className="rounded-lg border bg-white p-8 text-center text-gray-500">
-            Loading requests...
+          <div className="rounded-lg border border-stone-200 bg-white py-12 text-center">
+            <p className="text-stone-500">Loading your requests...</p>
           </div>
         ) : (
           <>
@@ -100,6 +115,7 @@ export default function ManagerDashboard() {
               userRole="MANAGER"
               onDelete={handleDelete}
               onDownloadQR={handleDownloadQR}
+              onGuestClick={setSelectedGuest}
               actionLoading={actionLoading}
             />
             <Pagination
@@ -112,6 +128,11 @@ export default function ManagerDashboard() {
           </>
         )}
       </div>
+
+      <GuestDetailModal
+        request={selectedGuest}
+        onClose={() => setSelectedGuest(null)}
+      />
     </div>
   );
 }

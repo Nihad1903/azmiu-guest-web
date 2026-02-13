@@ -1,9 +1,21 @@
 import type { QRRequestStatus } from "../types/api.ts";
 
-const statusStyles: Record<QRRequestStatus, string> = {
-  PENDING: "bg-yellow-100 text-yellow-800",
-  APPROVED: "bg-green-100 text-green-800",
-  REJECTED: "bg-red-100 text-red-800",
+const statusConfig: Record<QRRequestStatus, { bg: string; text: string; label: string }> = {
+  PENDING: {
+    bg: "bg-amber-50",
+    text: "text-amber-700",
+    label: "Pending",
+  },
+  APPROVED: {
+    bg: "bg-emerald-50",
+    text: "text-emerald-700",
+    label: "Approved",
+  },
+  REJECTED: {
+    bg: "bg-rose-50",
+    text: "text-rose-700",
+    label: "Rejected",
+  },
 };
 
 interface StatusBadgeProps {
@@ -11,11 +23,12 @@ interface StatusBadgeProps {
 }
 
 export default function StatusBadge({ status }: StatusBadgeProps) {
+  const config = statusConfig[status];
   return (
     <span
-      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${statusStyles[status]}`}
+      className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${config.bg} ${config.text}`}
     >
-      {status}
+      {config.label}
     </span>
   );
 }

@@ -51,27 +51,28 @@ export default function CreateRequestForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-lg border bg-white p-6">
-      <h2 className="mb-4 text-lg font-semibold text-gray-900">
-        New Guest QR Request
-      </h2>
+    <form onSubmit={handleSubmit} className="rounded-lg border border-stone-200 bg-white p-6">
+      <div className="mb-5">
+        <h2 className="text-base font-semibold text-stone-900">New Guest Request</h2>
+        <p className="text-sm text-stone-500">Create a new QR code request for a guest</p>
+      </div>
 
       {error && (
-        <div className="mb-4 rounded-md bg-red-50 p-3 text-sm text-red-700">
+        <div className="mb-5 rounded-md bg-rose-50 p-3 text-sm text-rose-700">
           {error}
         </div>
       )}
 
       {success && (
-        <div className="mb-4 rounded-md bg-green-50 p-3 text-sm text-green-700">
-          Request created successfully.
+        <div className="mb-5 rounded-md bg-emerald-50 p-3 text-sm text-emerald-700">
+          Request created successfully
         </div>
       )}
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Guest Name <span className="text-red-500">*</span>
+          <label className="block text-sm font-medium text-stone-700 mb-1.5">
+            First Name <span className="text-rose-500">*</span>
           </label>
           <input
             type="text"
@@ -79,12 +80,13 @@ export default function CreateRequestForm({
             required
             value={form.guest_name}
             onChange={handleChange}
-            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+            placeholder="John"
+            className="block w-full rounded-md border border-stone-300 px-3 py-2 text-sm placeholder:text-stone-400 focus:border-stone-500 focus:ring-1 focus:ring-stone-500 focus:outline-none transition-colors"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Guest Surname <span className="text-red-500">*</span>
+          <label className="block text-sm font-medium text-stone-700 mb-1.5">
+            Last Name <span className="text-rose-500">*</span>
           </label>
           <input
             type="text"
@@ -92,12 +94,13 @@ export default function CreateRequestForm({
             required
             value={form.guest_surname}
             onChange={handleChange}
-            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+            placeholder="Doe"
+            className="block w-full rounded-md border border-stone-300 px-3 py-2 text-sm placeholder:text-stone-400 focus:border-stone-500 focus:ring-1 focus:ring-stone-500 focus:outline-none transition-colors"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Guest Email <span className="text-red-500">*</span>
+          <label className="block text-sm font-medium text-stone-700 mb-1.5">
+            Email <span className="text-rose-500">*</span>
           </label>
           <input
             type="email"
@@ -105,42 +108,45 @@ export default function CreateRequestForm({
             required
             value={form.guest_email}
             onChange={handleChange}
-            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+            placeholder="john.doe@example.com"
+            className="block w-full rounded-md border border-stone-300 px-3 py-2 text-sm placeholder:text-stone-400 focus:border-stone-500 focus:ring-1 focus:ring-stone-500 focus:outline-none transition-colors"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Guest Phone
+          <label className="block text-sm font-medium text-stone-700 mb-1.5">
+            Phone
           </label>
           <input
             type="tel"
             name="guest_phone"
             value={form.guest_phone}
             onChange={handleChange}
-            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+            placeholder="+1 (555) 000-0000"
+            className="block w-full rounded-md border border-stone-300 px-3 py-2 text-sm placeholder:text-stone-400 focus:border-stone-500 focus:ring-1 focus:ring-stone-500 focus:outline-none transition-colors"
           />
         </div>
         <div className="sm:col-span-2">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-stone-700 mb-1.5">
             Remark
           </label>
           <textarea
             name="remark"
-            rows={2}
+            rows={3}
             value={form.remark}
             onChange={handleChange}
-            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+            placeholder="Additional notes about the guest visit..."
+            className="block w-full rounded-md border border-stone-300 px-3 py-2 text-sm placeholder:text-stone-400 focus:border-stone-500 focus:ring-1 focus:ring-stone-500 focus:outline-none transition-colors resize-none"
           />
         </div>
       </div>
 
-      <div className="mt-4">
+      <div className="mt-5 flex justify-end">
         <button
           type="submit"
           disabled={isSubmitting}
-          className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+          className="rounded-md bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
-          {isSubmitting ? "Submitting..." : "Submit Request"}
+          {isSubmitting ? "Creating..." : "Create Request"}
         </button>
       </div>
     </form>

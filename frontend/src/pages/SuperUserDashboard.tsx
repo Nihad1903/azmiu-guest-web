@@ -11,6 +11,7 @@ import { extractErrorMessage } from "../hooks/useApiError.ts";
 import RequestsTable from "../components/RequestsTable.tsx";
 import RejectDialog from "../components/RejectDialog.tsx";
 import Pagination from "../components/Pagination.tsx";
+import GuestDetailModal from "../components/GuestDetailModal.tsx";
 
 type ViewMode = "pending" | "all";
 
@@ -28,6 +29,9 @@ export default function SuperUserDashboard() {
   // Reject dialog state
   const [rejectTarget, setRejectTarget] = useState<QRRequest | null>(null);
   const [isRejecting, setIsRejecting] = useState(false);
+
+  // Guest detail modal state
+  const [selectedGuest, setSelectedGuest] = useState<QRRequest | null>(null);
 
   const fetchRequests = useCallback(
     async (p: number, mode: ViewMode) => {
@@ -104,27 +108,33 @@ export default function SuperUserDashboard() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-gray-900">QR Requests</h2>
-        <div className="flex gap-2">
-          <div className="flex rounded-md border border-gray-300">
+      {/* Header */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-xl font-semibold text-stone-900">Guest Requests</h1>
+          <p className="text-sm text-stone-500">
+            Review and manage guest QR code requests
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="flex rounded-md border border-stone-200 bg-white p-0.5">
             <button
               onClick={() => handleViewModeChange("pending")}
-              className={`px-3 py-1.5 text-sm font-medium ${
+              className={`px-3 py-1.5 text-sm font-medium rounded transition-colors ${
                 viewMode === "pending"
-                  ? "bg-blue-600 text-white"
-                  : "bg-white text-gray-700 hover:bg-gray-50"
-              } rounded-l-md`}
+                  ? "bg-stone-100 text-stone-900"
+                  : "text-stone-500 hover:text-stone-900"
+              }`}
             >
               Pending
             </button>
             <button
               onClick={() => handleViewModeChange("all")}
-              className={`px-3 py-1.5 text-sm font-medium ${
+              className={`px-3 py-1.5 text-sm font-medium rounded transition-colors ${
                 viewMode === "all"
-                  ? "bg-blue-600 text-white"
-                  : "bg-white text-gray-700 hover:bg-gray-50"
-              } rounded-r-md`}
+                  ? "bg-stone-100 text-stone-900"
+                  : "text-stone-500 hover:text-stone-900"
+              }`}
             >
               All
             </button>
@@ -132,7 +142,7 @@ export default function SuperUserDashboard() {
           <button
             onClick={() => fetchRequests(page, viewMode)}
             disabled={isLoading}
-            className="rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+            className="rounded-md border border-stone-200 bg-white px-3 py-1.5 text-sm font-medium text-stone-600 hover:bg-stone-50 disabled:opacity-50 transition-colors"
           >
             {isLoading ? "Loading..." : "Refresh"}
           </button>
@@ -140,14 +150,14 @@ export default function SuperUserDashboard() {
       </div>
 
       {error && (
-        <div className="rounded-md bg-red-50 p-3 text-sm text-red-700">
+        <div className="rounded-md bg-rose-50 border border-rose-200 px-4 py-3 text-sm text-rose-700">
           {error}
         </div>
       )}
 
       {isLoading && requests.length === 0 ? (
-        <div className="rounded-lg border bg-white p-8 text-center text-gray-500">
-          Loading requests...
+        <div className="rounded-lg border border-stone-200 bg-white py-12 text-center">
+          <p className="text-stone-500">Loading requests...</p>
         </div>
       ) : (
         <>
@@ -157,6 +167,7 @@ export default function SuperUserDashboard() {
             onApprove={handleApprove}
             onReject={handleRejectOpen}
             onDownloadQR={handleDownloadQR}
+            onGuestClick={setSelectedGuest}
             actionLoading={actionLoading}
           />
           <Pagination
@@ -179,6 +190,11 @@ export default function SuperUserDashboard() {
         onConfirm={handleRejectConfirm}
         onCancel={() => setRejectTarget(null)}
         isSubmitting={isRejecting}
+      />
+
+      <GuestDetailModal
+        request={selectedGuest}
+        onClose={() => setSelectedGuest(null)}
       />
     </div>
   );

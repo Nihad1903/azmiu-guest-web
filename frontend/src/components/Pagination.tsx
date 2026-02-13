@@ -17,24 +17,24 @@ export default function Pagination({
 
   return (
     <div className="mt-4 flex items-center justify-between">
-      <span className="text-sm text-gray-600">
-        Total: {totalCount} request{totalCount !== 1 ? "s" : ""}
+      <span className="text-sm text-stone-500">
+        {totalCount} request{totalCount !== 1 ? "s" : ""}
       </span>
-      <div className="flex gap-2">
+      <div className="flex items-center gap-1">
         <button
           onClick={() => onPageChange(page - 1)}
           disabled={!hasPrevious}
-          className="rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+          className="rounded-md px-3 py-1.5 text-sm text-stone-600 hover:bg-stone-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
         >
           Previous
         </button>
-        <span className="flex items-center px-2 text-sm text-gray-600">
-          Page {page}
+        <span className="px-3 py-1.5 text-sm font-medium text-stone-900">
+          {page}
         </span>
         <button
           onClick={() => onPageChange(page + 1)}
           disabled={!hasNext}
-          className="rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+          className="rounded-md px-3 py-1.5 text-sm text-stone-600 hover:bg-stone-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
         >
           Next
         </button>
